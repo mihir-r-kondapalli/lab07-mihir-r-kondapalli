@@ -11,6 +11,16 @@ using namespace std;
  *
  *You should provide a recursive solution*/
 bool isPalindrome(const string s1){
-    //STUB: Replace the following with the correct code.
-    return true;
+    
+    if(s1.size()==0 || s1.size()==1)
+    {
+        return true;
+    }
+    
+    if(tolower(s1.at(0)) == tolower(s1.at(s1.size()-1)))
+    {
+        return isPalindrome(s1.substr(1, s1.size()-2));
+    }
+
+    return false;
 }

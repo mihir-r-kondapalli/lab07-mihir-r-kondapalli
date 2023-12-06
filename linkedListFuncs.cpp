@@ -12,7 +12,12 @@ using namespace std;
 //return sum of all values in linked list using a recursive approach
 //if head is null return 0
 int recursiveSum(Node* head) {
-  return -42;
+  if(head==NULL)
+  {
+    return 0;
+  }
+
+  return head->data + recursiveSum(head->next);
 }
 
 
@@ -21,7 +26,14 @@ int recursiveSum(Node* head) {
 //you may assume the list has at least one element
 int recursiveLargestValue(Node* head) {
 
-  return -42;
+  if(head->next == NULL)
+  {
+    return head->data;
+  }
+
+  int remaining = recursiveLargestValue(head->next);
+
+  return (head->data > remaining) ? head->data : remaining;
 }
 
 
@@ -33,8 +45,18 @@ int recursiveLargestValue(Node* head) {
  * Return &n3
  */
 Node* recursiveFindKthNode(Node *head, int k){
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    
+    if(head == NULL)
+    {
+        return NULL;
+    }
+
+    if(k==1)
+    {
+        return head;
+    }
+
+    return recursiveFindKthNode(head->next, k-1);
 }
 
 
@@ -48,8 +70,24 @@ Node* recursiveFindKthNode(Node *head, int k){
 * New list should look like this: n1 -> n3 -> n4
 */
 Node* recursiveDeleteKthNode(Node *head, int k) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+
+    if(k==1)
+    {
+        Node* temp = head;
+        head = head->next;
+        return head;
+    }
+
+    if(k==2)
+    {
+        Node* temp = head->next;
+        head->next = head->next->next;
+        return head;
+    }
+
+    recursiveDeleteKthNode(head->next, k-1);
+
+    return head;
 }
 
 
@@ -62,8 +100,17 @@ Node* recursiveDeleteKthNode(Node *head, int k) {
 * Delete n1, n2 and return &n3
 */
 Node* recursiveRemoveKFromFront(Node *head, int k) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    
+    if(k==0)
+    {
+        return head;
+    }
+
+    Node* temp = head;
+    head = head->next;
+    delete temp;
+
+    return recursiveRemoveKFromFront(head, k-1);
 }
 
 
@@ -75,8 +122,29 @@ Node* recursiveRemoveKFromFront(Node *head, int k) {
  * Return &head of the linked list 5 -> 7 -> 9 -> 12
  */
 Node* recursiveElementwiseSum(Node *head1, Node *head2) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    
+    Node* temp = new Node();
+    temp->data = head1->data + head2->data;
+    temp->next = NULL;
+
+    if(head1->next == NULL && head2->next == NULL)
+    {
+        return temp;
+    }
+    else if(head1->next == NULL)
+    {
+        temp->next = head2->next;
+        return temp;
+    }
+    else if(head2->next == NULL)
+    {
+        temp->next = head1->next;
+        return temp;
+    }
+    
+    temp->next = recursiveElementwiseSum(head1->next, head2->next);
+
+    return temp;
 }
 
 
@@ -90,6 +158,26 @@ Node* recursiveElementwiseSum(Node *head1, Node *head2) {
  * Return &head of 1 -> 4 -> 2 -> 5 -> 3 -> 6
  */
 Node* recursiveSplice(Node *head1, Node *head2) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    
+    if(head1 == NULL && head2 == NULL)
+    {
+        return NULL;
+    }
+    else if(head1 == NULL)
+    {
+        return head2;
+    }
+    else if(head2 == NULL)
+    {
+        return head1;
+    }
+
+    Node* temp = head2;
+    head2 = head2->next;
+    temp->next = head1->next;
+    head1->next = temp;
+
+    recursiveSplice(head1->next->next, head2);
+
+    return head1;
 }
