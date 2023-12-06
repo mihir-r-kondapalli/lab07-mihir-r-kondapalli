@@ -75,6 +75,7 @@ Node* recursiveDeleteKthNode(Node *head, int k) {
     {
         Node* temp = head;
         head = head->next;
+        delete temp;
         return head;
     }
 
@@ -82,6 +83,7 @@ Node* recursiveDeleteKthNode(Node *head, int k) {
     {
         Node* temp = head->next;
         head->next = head->next->next;
+        delete temp;
         return head;
     }
 
@@ -124,21 +126,24 @@ Node* recursiveRemoveKFromFront(Node *head, int k) {
 Node* recursiveElementwiseSum(Node *head1, Node *head2) {
     
     Node* temp = new Node();
-    temp->data = head1->data + head2->data;
+
+    if(head1 != NULL && head2 != NULL)
+    {
+        temp->data = head1->data + head2->data;
+    }
+    else if(head1 == NULL)
+    {
+        temp->data = head2->data;
+    }
+    else if(head2 == NULL)
+    {
+        temp->data = head1->data;
+    }
+    
     temp->next = NULL;
 
     if(head1->next == NULL && head2->next == NULL)
     {
-        return temp;
-    }
-    else if(head1->next == NULL)
-    {
-        temp->next = head2->next;
-        return temp;
-    }
-    else if(head2->next == NULL)
-    {
-        temp->next = head1->next;
         return temp;
     }
     
