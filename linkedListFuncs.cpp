@@ -127,27 +127,32 @@ Node* recursiveElementwiseSum(Node *head1, Node *head2) {
     
     Node* temp = new Node();
 
-    if(head1 != NULL && head2 != NULL)
+    if(head1 == NULL && head2 == NULL)
     {
-        temp->data = head1->data + head2->data;
+        return NULL;
     }
     else if(head1 == NULL)
     {
         temp->data = head2->data;
+        temp->next = recursiveElementwiseSum(head1, head2->next);
     }
     else if(head2 == NULL)
     {
         temp->data = head1->data;
+        temp->next = recursiveElementwiseSum(head1->next, head2);
     }
-    
-    temp->next = NULL;
-
-    if(head1->next == NULL && head2->next == NULL)
+    else
     {
-        return temp;
+        temp->data = head1->data + head2->data;
+        temp->next = NULL;
+
+        if(head1->next == NULL && head2->next == NULL)
+        {
+            return temp;
+        }
+
+        temp->next = recursiveElementwiseSum(head1->next, head2->next);
     }
-    
-    temp->next = recursiveElementwiseSum(head1->next, head2->next);
 
     return temp;
 }
